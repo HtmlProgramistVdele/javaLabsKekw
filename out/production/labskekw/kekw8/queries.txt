@@ -1,0 +1,31 @@
+Написати sql запит на створення БД, створення таблички Comments(поля/колонки придумуйте на ваш розсуд) та заповнити її 5 записами.
+Створити дві таблички User та Role і налаштувати між ними ManyToMany зв’язок. Заповнити таблички данними, та написати запит який буде діставати всіх користувачів з визначеною роллю. (Тобто отримати всіх користувачів які мають роль USER, або ж ADMIN);
+Розробити власну БД та сконфігурувати таблички та зв’язки між ними. Для таких веб додатків як (Форум, Інтернет-магазин, Онлайн-тести (щось подібне до гугл форм),Веб-сайт для перегляду фільмів, Аналог SoundCloud)
+
+
+
+CREATE TABLE roles(id integer primary key autoincrement, name char(64));
+CREATE TABLE users ( id integer primary key autoincrement, name char(64), role integer, foreign key(role) references roles(id));
+CREATE TABLE tags( id integer primary key autoincrement, name char(128), description text);
+CREATE TABLE posts(id integer primary key autoincrement, authorId not null, title char(128), content text, tags text, foreign key(authorId) references users(id), foreign key(tags) references tags(id));
+CREATE TABLE comments ( id integer primary key autoincrement, postId integer not null,userId integer not null, comment char(256), foreign key(userId) references users(id), foreign key(postId) references posts(id));
+CREATE TABLE postTags(id integer primary key autoincrement, postId integer not null, tagId integer not null, foreign key(postId) references posts(id), foreign key(tagId) references tags(id));
+
+1.
+ insert into comments (userId, comment) values(1, 'kekw');
+ insert into comments (userId, comment) values(2, 'kekw');
+ insert into comments (userId, comment) values(3, 'kekw');
+ insert into comments (userId, comment) values(4, 'kekw');
+ insert into comments (userId, comment) values(5, 'kekw');
+
+2.
+
+insert into roles(name) values('Admin');
+insert into roles(name) values('User');
+insert into users(name, role) values('Kekl', 1)
+insert into users(name, role) values('Keklw', 1)
+insert into users(name, role) values('Kekl', 2);
+
+select users.id, users.name, roles.name from users join roles on users.role = roles.id where roles.name = 'Admin'
+1|Kekl|Admin
+
